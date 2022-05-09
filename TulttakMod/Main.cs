@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-using ModTemplate.MainPatch;
+using TulttakMod.MainPatch;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityModManagerNet;
 
-namespace ModTemplate {
+namespace TulttakMod {
     #if DEBUG
     [EnableReloading]
     #endif

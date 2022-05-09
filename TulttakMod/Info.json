@@ -1,0 +1,9 @@
+{
+  "Id": "TulttakMod",
+  "DisplayName": "TulttakMod",
+  "Author": "HYONSU",
+  "Version": "0.0.1",
+  "AssemblyName": "TulttakMod.dll",
+  "EntryMethod": "TulttakMod.Main.Load",
+  "Repository": ""
+}
