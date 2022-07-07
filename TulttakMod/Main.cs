@@ -1,8 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using HarmonyLib;
-using TulttakMod.MainPatch;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityModManagerNet;
 
 namespace TulttakMod {
@@ -11,11 +9,25 @@ namespace TulttakMod {
     #endif
 
     internal static class Main {
-        // public static Text text;
         internal static UnityModManager.ModEntry Mod;
         private static Harmony _harmony;
         internal static bool IsEnabled { get; private set; }
         internal static MainSettings Settings { get; private set; }
+
+        public static bool EnableEasterEgg() {
+            return new long[] {
+                348009971037765633L, // 정현수#1234
+                800236737182957608L, // 새제비#1201
+                396515657560096780L, // Pharah#5252
+                550696785518133299L, // 한비#0370
+            }.Contains(DiscordController.currentUserID);
+        }
+
+        public static bool ShowSajabe() {
+            return new long[] {
+                348009971037765633L, // 정현수#1234
+            }.Contains(DiscordController.currentUserID);
+        }
 
         private static void Load(UnityModManager.ModEntry modEntry) {
             Mod = modEntry;
@@ -41,11 +53,6 @@ namespace TulttakMod {
         private static void Start() {
             _harmony = new Harmony(Mod.Info.Id);
             _harmony.PatchAll(Assembly.GetExecutingAssembly());
-            // GCS.speedTrialMode = true;
-            // SceneManager.LoadScene("XT-X");
-
-            // text = new GameObject().AddComponent<Text>();
-            // Object.DontDestroyOnLoad(text);
         }
 
         private static bool Stop(UnityModManager.ModEntry modEntry) {
@@ -53,9 +60,6 @@ namespace TulttakMod {
             #if RELEASE
             _harmony = null;
             #endif
-            
-            // Object.DestroyImmediate(text);
-            // text = null;
 
             return true;
         }
