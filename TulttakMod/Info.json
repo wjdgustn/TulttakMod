@@ -2,7 +2,7 @@
   "Id": "TulttakMod",
   "DisplayName": "TulttakMod",
   "Author": "HYONSU",
-  "Version": "0.0.2",
+  "Version": "0.0.3",
   "AssemblyName": "TulttakMod.dll",
   "EntryMethod": "TulttakMod.Main.Load",
   "Repository": ""
