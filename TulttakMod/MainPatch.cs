@@ -101,22 +101,22 @@ namespace TulttakMod.MainPatch {
             var shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
             if (ctrl && shift && Input.GetKeyDown(KeyCode.B)) {
-                var isMesh = !CustomLevel.instance.levelData.isOldLevel;
+                var isMesh = !scnGame.instance.levelData.isOldLevel;
                 if (isMesh) {
-                    var data = Util.ToLegacy(CustomLevel.instance.levelData.angleData, out var unsuccessful);
+                    var data = Util.ToLegacy(scnGame.instance.levelData.angleData, out var unsuccessful);
                     if (unsuccessful.HasValue) {
                         scnEditor.instance.ShowNotification($"{(Main.EnableEasterEgg() ? "제비탈모" : "변환 실패!")}\n타일 #{unsuccessful.Value.Item1}: {unsuccessful.Value.Item2}");
                         return;
                     }
-                    CustomLevel.instance.levelData.pathData = data;
+                    scnGame.instance.levelData.pathData = data;
                 }
                 else {
-                    CustomLevel.instance.levelData.angleData = Util.ToMesh(CustomLevel.instance.levelData.pathData);
-                    CustomLevel.instance.RemakePath();
+                    scnGame.instance.levelData.angleData = Util.ToMesh(scnGame.instance.levelData.pathData);
+                    scnGame.instance.RemakePath();
                 }
 
-                CustomLevel.instance.levelData.isOldLevel = isMesh;
-                CustomLevel.instance.RemakePath();
+                scnGame.instance.levelData.isOldLevel = isMesh;
+                scnGame.instance.RemakePath();
             }
         }
     }
