@@ -71,12 +71,13 @@ namespace TulttakMod.MainPatch {
         private static scrFloor beforeTextFloor;
 
         private static void Postfix(scnEditor __instance) {
-            if (__instance.showFloorNums) return;
-            
             if (beforeTextFloor != null) {
-                beforeTextFloor.editorNumText.gameObject.SetActive(false);
+                beforeTextFloor.editorNumText.letterText.text = $"{beforeTextFloor.seqID}";
+                if (!__instance.showFloorNums) beforeTextFloor.editorNumText.gameObject.SetActive(false);
                 beforeTextFloor = null;
             }
+            
+            if (__instance.showFloorNums) return;
             
             if (!Main.Settings.ShowAngle) return;
             
