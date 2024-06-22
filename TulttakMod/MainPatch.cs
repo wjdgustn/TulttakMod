@@ -191,7 +191,7 @@ namespace TulttakMod.MainPatch {
             addEvent.Invoke(__instance, new object[] { floor.seqID, LevelEventType.Twirl });
 
             __instance.ApplyEventsToFloors();
-            __instance.SelectFloor(__instance.floors.Last());
+            __instance.SelectFloor(__instance.floors[floor.seqID + 1]);
         }
     }
 }
