@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using ADOFAI;
 using HarmonyLib;
@@ -168,6 +169,9 @@ namespace TulttakMod.MainPatch {
             
             var addEvent = AccessTools.Method(typeof(scnEditor), "AddEvent");
             addEvent.Invoke(__instance, new object[] { floor.seqID, LevelEventType.Twirl });
+
+            __instance.ApplyEventsToFloors();
+            __instance.SelectFloor(__instance.floors.Last());
         }
     }
 }
