@@ -71,9 +71,9 @@ namespace TulttakMod.MainPatch {
     [HarmonyPatch(typeof(scnEditor), "OnSelectedFloorChange")]
 
     public static class ShowAngle {
-        private static scrFloor beforeTextFloor;
+        public static scrFloor beforeTextFloor;
 
-        private static void Postfix(scnEditor __instance) {
+        public static void Postfix(scnEditor __instance) {
             if (beforeTextFloor != null) {
                 beforeTextFloor.editorNumText.letterText.text = $"{beforeTextFloor.seqID}";
                 if (!__instance.showFloorNums) beforeTextFloor.editorNumText.gameObject.SetActive(false);
@@ -94,6 +94,26 @@ namespace TulttakMod.MainPatch {
             clickedFloor.editorNumText.letterText.text = $"{(float) clickedFloor.angleLength * Mathf.Rad2Deg:#.###}";
 
             beforeTextFloor = clickedFloor;
+        }
+    }
+
+    [HarmonyPatch(typeof(scnEditor), "RemakePath")]
+
+    internal static class RecoverFloorNum
+    {
+        private static void Postfix(scnEditor __instance)
+        {
+            if (__instance.showFloorNums)
+            {
+                if (ShowAngle.beforeTextFloor == null) return;
+                
+                ShowAngle.beforeTextFloor.editorNumText.letterText.text = $"{ShowAngle.beforeTextFloor.seqID}";
+                ShowAngle.beforeTextFloor = null;
+            }
+            else
+            {
+                ShowAngle.Postfix(__instance);
+            }
         }
     }
 
