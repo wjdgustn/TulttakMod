@@ -154,10 +154,10 @@ namespace TulttakMod.MainPatch {
 
             if (floor == null) return;
 
-            var angle = Mathf.Floor((float)floor.angleLength * Mathf.Rad2Deg * 1000f) / 1000f;
+            var angle = Mathf.Floor((float)floor.angleLength * Mathf.Rad2Deg * 100f) / 100f;
             var prevAngle = prevFloor == null
                 ? 0
-                : Mathf.Floor((float)prevFloor.angleLength * Mathf.Rad2Deg * 1000f) / 1000f;
+                : Mathf.Floor((float)prevFloor.angleLength * Mathf.Rad2Deg * 100f) / 100f;
 
             if (prevFloor != null
                 && Main.Settings.ExcludePseudoSecondFloor
