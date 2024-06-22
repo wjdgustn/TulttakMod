@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using ADOFAI;
 using HarmonyLib;
 using UnityEngine;
@@ -128,6 +130,44 @@ namespace TulttakMod.MainPatch {
         private static void Postfix() {
             if (Main.EnableEasterEgg())
                 Main.Mod.Info.DisplayName = $"{(Main.ShowSajabe() ? "새제비" : DiscordController.currentUsername)}모드";
+        }
+    }
+
+    [HarmonyPatch]
+    
+    internal static class AutoTwirl
+    {
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(scnEditor), "CreateFloor", new[] { typeof(char), typeof(bool), typeof(bool) });
+            yield return AccessTools.Method(typeof(scnEditor), "CreateFloor", new[] { typeof(float), typeof(bool), typeof(bool) });
+        }
+        
+        private static void Postfix(scnEditor __instance)
+        {
+            if (!Main.Settings.AutoTwirl) return;
+
+            if (!__instance.SelectionIsSingle()) return;
+            
+            var floor = __instance.selectedFloors[0].prevfloor ?? __instance.floors[__instance.floors.Count - 2];
+            var prevFloor = floor?.prevfloor;
+
+            if (floor == null) return;
+
+            var angle = Mathf.Floor((float)floor.angleLength * Mathf.Rad2Deg * 1000f) / 1000f;
+            var prevAngle = prevFloor == null
+                ? 0
+                : Mathf.Floor((float)prevFloor.angleLength * Mathf.Rad2Deg * 1000f) / 1000f;
+
+            if (prevFloor != null
+                && Main.Settings.ExcludePseudoSecondFloor
+                && prevAngle <= Main.Settings.PseudoMaxAngle) return;
+
+            if (angle < Main.Settings.TwirlMinAngle
+                || angle > Main.Settings.TwirlMaxAngle) return;
+            
+            var addEvent = AccessTools.Method(typeof(scnEditor), "AddEvent");
+            addEvent.Invoke(__instance, new object[] { floor.seqID, LevelEventType.Twirl });
         }
     }
 }
