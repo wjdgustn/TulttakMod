@@ -88,7 +88,7 @@ namespace TulttakMod.MainPatch {
             ADOBase.lm.CalculateFloorAngleLengths();
             
             clickedFloor.editorNumText.gameObject.SetActive(true);
-            clickedFloor.editorNumText.letterText.text = $"{(float) clickedFloor.angleLength * 57.29578f:#.###}";
+            clickedFloor.editorNumText.letterText.text = $"{(float) clickedFloor.angleLength * Mathf.Rad2Deg:#.###}";
 
             beforeTextFloor = clickedFloor;
         }
