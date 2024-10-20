@@ -2,7 +2,7 @@
   "Id": "TulttakMod",
   "DisplayName": "TulttakMod",
   "Author": "HYONSU",
-  "Version": "0.0.4",
+  "Version": "0.0.5",
   "AssemblyName": "TulttakMod.dll",
   "EntryMethod": "TulttakMod.Main.Load",
   "Repository": "https://bot.adofai.gg/api/mods/TulttakMod/Repository.json"

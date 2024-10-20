@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using ADOFAI;
 using HarmonyLib;
@@ -120,8 +119,9 @@ namespace TulttakMod.MainPatch {
     [HarmonyPatch(typeof(scnEditor), "Update")]
 
     internal static class EditorKeymap {
-        private static void Postfix() {
+        private static void Postfix(scnEditor __instance) {
             var ctrl = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+            var alt = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
             var shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
             if (ctrl && shift && Input.GetKeyDown(KeyCode.B)) {
@@ -141,6 +141,23 @@ namespace TulttakMod.MainPatch {
 
                 scnGame.instance.levelData.isOldLevel = isMesh;
                 scnGame.instance.RemakePath();
+            }
+
+            if (alt && Input.GetKeyDown(KeyCode.C))
+            {
+                if (!__instance.SelectionIsSingle()) return;
+                
+                var selectedFloor = __instance.selectedFloors[0];
+                var selectedFloorTime = selectedFloor.entryTime * 1000d;
+                var firstFloor = __instance.floors[1];
+                var firstFloorTime = firstFloor.entryTime * 1000d;
+                
+                var offset = (double)__instance.levelData.offset;
+                
+                var songPos = selectedFloorTime - firstFloorTime + offset;
+                if (selectedFloor.seqID == 0) songPos = 0;
+                
+                GUIUtility.systemCopyBuffer = $"{songPos}";
             }
         }
     }
